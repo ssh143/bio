@@ -1,0 +1,152 @@
+:root {
+    --primary-color: #00aaff;
+    --background-color: #121212;
+    --surface-color: #1e1e1e;
+    --text-color: #e0e0e0;
+    --text-secondary-color: #a0a0a0;
+    --border-color: #333;
+    --key-color: #9cdcfe;
+    --string-color: #ce9178;
+    --number-color: #b5cea8;
+    --boolean-color: #569cd6;
+    --font-family-sans: 'Roboto', sans-serif;
+    --font-family-mono: 'Roboto Mono', monospace;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-family: var(--font-family-sans);
+    margin: 0;
+    line-height: 1.7;
+}
+
+header {
+    background-color: rgba(30, 30, 30, 0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border-color);
+    padding: 1rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+nav { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; }
+nav h1 { color: var(--primary-color); font-size: 1.5rem; margin: 0; }
+nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 1.5rem; flex-wrap: wrap; }
+nav a { color: var(--text-color); text-decoration: none; font-weight: 500; transition: color 0.3s; padding: 5px 0; }
+nav a:hover, nav a.active { color: var(--primary-color); border-bottom: 2px solid var(--primary-color); }
+
+main { padding: 2rem; max-width: 1200px; margin: 0 auto; }
+
+.content-section {
+    background-color: var(--surface-color);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 2rem;
+    animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Welcome Screen */
+.welcome-container { display: flex; align-items: center; gap: 2rem; flex-wrap: wrap-reverse; }
+.welcome-text { flex: 2; min-width: 300px; }
+.welcome-text h2 { font-size: 2.8rem; color: var(--primary-color); margin-bottom: 1rem; }
+
+/* --- MODIFIED: Welcome Image for Professional Circular Profile Logo --- */
+.welcome-image {
+    flex: 1;
+    max-width: 350px; /* Container ka max-width */
+    min-width: 250px; /* Container ka min-width */
+    text-align: center;
+    /* Image ko container ke andar center karne ke liye */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.welcome-image img {
+    width: 200px; /* Profile logo ki nirdharit size */
+    height: 200px; /* Circular shape ke liye height bhi width ke barabar rakhein */
+    border-radius: 50%; /* Image ko poori tarah gol banata hai */
+    object-fit: cover; /* Image ko crop karke gol shape mein fit karta hai, bina distorted hue */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 2px solid var(--border-color);
+    cursor: pointer;
+    transition: transform 0.3s, box-shadow 0.3s;
+    /* Existing max-width: 100%; ko override karein agar fixed dimensions chahiye */
+    max-width: none; /* Fixed width/height ko allow karne ke liye */
+}
+
+.welcome-image img:hover { transform: scale(1.05); box-shadow: 0 15px 40px rgba(0, 170, 255, 0.2); }
+
+/* Image Lightbox */
+.lightbox {
+    display: none; position: fixed; z-index: 2000;
+    left: 0; top: 0; width: 100%; height: 100%;
+    overflow: auto; background-color: rgba(0,0,0,0.9);
+    justify-content: center; align-items: center;
+}
+.lightbox.active { display: flex; }
+.lightbox-content { margin: auto; display: block; max-width: 90%; max-height: 90%; }
+.lightbox-close {
+    position: absolute; top: 20px; right: 35px; color: #f1f1f1;
+    font-size: 40px; font-weight: bold; transition: 0.3s; cursor: pointer;
+}
+.lightbox-close:hover { color: #bbb; }
+
+h2.section-title { border-bottom: 2px solid var(--primary-color); padding-bottom: 0.5rem; margin-bottom: 1.5rem; font-size: 2rem; }
+
+/* JSON Tree Styles */
+.json-controls { display: flex; gap: 10px; margin-bottom: 1rem; }
+.json-btn { background-color: var(--primary-color); color: #fff; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; transition: background-color 0.3s; }
+.json-btn:hover { background-color: #0088cc; }
+.json-tree { font-family: var(--font-family-mono); list-style: none; padding-left: 0; }
+.json-tree ul { padding-left: 25px; border-left: 1px solid var(--border-color); list-style: none; }
+.json-tree li { position: relative; }
+.json-tree li::before { content: ''; position: absolute; top: 0; left: -15px; border-left: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); width: 10px; height: 1em; }
+.json-tree .collapsible { cursor: pointer; }
+.json-tree .collapsible::before { content: '▼ '; color: var(--primary-color); font-family: sans-serif; }
+.json-tree .collapsed > .collapsible::before { content: '► '; }
+.json-tree .collapsed > ul { display: none; }
+.json-tree .key { color: var(--key-color); }
+.json-tree .string { color: var(--string-color); }
+.json-tree .number { color: var(--number-color); }
+.json-tree .boolean { color: var(--boolean-color); }
+
+/* Lazy Load Placeholder */
+.lazy-load-placeholder {
+    min-height: 150px;
+    background-color: #242424;
+    border-radius: 8px;
+    margin-bottom: 1.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.5;
+}
+
+/* Common Block Styles */
+.story-section h3, .test-block h3, .report-card h3 {
+    color: var(--key-color);
+    font-size: 1.6rem;
+    margin-top: 2rem;
+    border-left: 4px solid var(--primary-color);
+    padding-left: 1rem;
+    margin-bottom: 1.5rem;
+}
+.question-block, .report-card {
+    background-color: #242424;
+    border: 1px solid var(--border-color);
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border-radius: 8px;
+}
+.question-block .question { font-weight: bold; color: var(--primary-color); }
+.question-block .answer { margin-top: 1rem; color: var(--text-secondary-color); white-space: pre-wrap; }
+
+footer { text-align: center; padding: 1.5rem; color: var(--text-secondary-color); font-size: 0.9rem; border-top: 1px solid var(--border-color); margin-top: 2rem; }
